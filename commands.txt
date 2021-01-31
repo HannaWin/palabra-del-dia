@@ -1,0 +1,5 @@
+palabra - get word of the day
+translation - get English translation
+example - send Spanish example sentence with translation
+audio - audio of word of the day
+source - send url of SpanishDict
