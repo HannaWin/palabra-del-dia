@@ -13,8 +13,10 @@ except FileNotFoundError:
     raise Exception("Please create the file 'api_token.txt' that contains your bot's api token.")
     
 bot = telebot.TeleBot(token, parse_mode=None)
+chat_id = 288423253
 
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.197 Safari/537.36'}
+
 
 def fetch_wotd():
 	'''get data from indicated url and id'''	
@@ -23,7 +25,7 @@ def fetch_wotd():
 	data = soup.find(id='word-of-the-day-source').get_text().strip()
 	return data
 	
-# get html from site and write to local file
+
 def create_tree(url):
 	'''
 	create html tree of web page
@@ -80,26 +82,24 @@ def send_wotd_audio(message):
 	'''use Google's TTS Api to create audio'''
 	tts = gTTS(wotd, lang='es')
 	tts.save('wotd.mp3')
-
 	bot.send_audio(chat_id, open('wotd.mp3', 'rb'))
 	
+
 @bot.message_handler(commands=['source'])
 def get_source_info(message):
 	'''send og spanish dict link'''
 	url = 'https://www.spanishdict.com/translate/' + wotd
 	bot.send_message(chat_id, url)
 	
-
-wotd = fetch_wotd()
-chat_id = 288423253
-
-
+	
 def handle_messages(messages):
 	for message in messages:
 		print(message)
 
-bot.set_update_listener(handle_messages)
 
-bot.polling()
+if __name__=='__main__':
+	# run bot
+	wotd = fetch_wotd()
 
-
+	bot.set_update_listener(handle_messages)
+	bot.polling()
