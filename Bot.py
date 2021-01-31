@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.7
 import telebot
 from telebot import types
 import requests
@@ -109,6 +110,6 @@ if __name__=='__main__':
 			wotd = fetch_wotd()
 		# 	bot.set_update_listener(handle_messages)
 			bot.polling()
-		except ConnectionError:
+		except (ConnectionError, OSError):
 			os.execv(sys.argv[0], sys.argv)
-		
+
