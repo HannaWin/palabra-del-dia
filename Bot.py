@@ -8,7 +8,7 @@ from lxml import etree
 from gtts import gTTS
 import sys, os
 
-
+# replace with your path to this script
 path_to_script = '/home/pi/projects/palabra-del-dia/'
 
 try:
@@ -19,6 +19,7 @@ except FileNotFoundError:
     
 bot = telebot.TeleBot(token, parse_mode=None)
 
+# replace with your user agent (just google 'user agent')
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.197 Safari/537.36'}
 
 
@@ -110,6 +111,6 @@ if __name__=='__main__':
 			wotd = fetch_wotd()
 		# 	bot.set_update_listener(handle_messages)
 			bot.polling()
-		except (ConnectionError, OSError):
-			os.execv(sys.argv[0], sys.argv)
+		except (ConnectionError, OSError, RuntimeError):
+			os.execv(sys.executable, ['python'] + [sys.argv[0]])    # restart script
 

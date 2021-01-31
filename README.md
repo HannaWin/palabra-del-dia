@@ -17,8 +17,9 @@ The code was written in Python3.7.3. Install the required packages:
 $ pip3 install -r requirements.txt 
 ```
 
-### Change path
+### Change variables
 Lastly, you have to change the variables *path_to_script* and *local* in `Bot.py` to show the directory where you saved this repo.
+Also, the value in *headers* should be replaced by your user agent. 
 
 ### Run the Bot
 To use the bot, `Bot.py` must be running. 
