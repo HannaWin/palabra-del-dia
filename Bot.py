@@ -13,7 +13,6 @@ except FileNotFoundError:
     raise Exception("Please create the file 'api_token.txt' that contains your bot's api token.")
     
 bot = telebot.TeleBot(token, parse_mode=None)
-chat_id = 288423253
 
 headers = {'User-Agent': 'Mozilla/5.0 (X11; Linux armv7l) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.197 Safari/537.36'}
 
@@ -47,13 +46,13 @@ def create_tree(url):
 
 @bot.message_handler(commands=['start'])
 def send_welcome_message(message):
-	bot.send_message(chat_id, 'Bienvenido!')
+	bot.send_message(message.chat.id, 'Bienvenido!')
 	
 
 @bot.message_handler(commands=['palabra'])
 def word_of_the_day(message):
 	'''get wotd from spanishdict and send it to chat'''
-	bot.send_message(chat_id, f'{wotd}')
+	bot.send_message(message.chat.id, f'{wotd}')
 	
 	
 @bot.message_handler(commands=['example'])
@@ -64,7 +63,7 @@ def send_source_url(message):
 	spanish_exp = tree.xpath('//*[@id="dictionary-neodict-es"]/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div/div[1]/span[1]/text()')[0]
 	english_translation = tree.xpath('//*[@id="dictionary-neodict-es"]/div[1]/div[2]/div[2]/div/div[2]/div[1]/div/div/div[1]/span[3]/text()')[0]
 	
-	bot.send_message(chat_id, spanish_exp + '\n\n' + english_translation)
+	bot.send_message(message.chat.id, spanish_exp + '\n\n' + english_translation)
 	
 
 @bot.message_handler(commands=['translation'])
@@ -74,7 +73,7 @@ def send_translation(message):
 	tree = create_tree(source_url)
 	translation = tree.xpath('//*[@id="quickdef1-es"]/a/text()')[0]
 	
-	bot.send_message(chat_id, translation)
+	bot.send_message(message.chat.id, translation)
 
 
 @bot.message_handler(commands=['audio'])
@@ -82,19 +81,20 @@ def send_wotd_audio(message):
 	'''use Google's TTS Api to create audio'''
 	tts = gTTS(wotd, lang='es')
 	tts.save('wotd.mp3')
-	bot.send_audio(chat_id, open('wotd.mp3', 'rb'))
+	bot.send_audio(message.chat.id, open('wotd.mp3', 'rb'))
 	
 
 @bot.message_handler(commands=['source'])
 def get_source_info(message):
 	'''send og spanish dict link'''
 	url = 'https://www.spanishdict.com/translate/' + wotd
-	bot.send_message(chat_id, url)
+	bot.send_message(message.chat.id, url)
 	
 	
 def handle_messages(messages):
 	for message in messages:
-		print(message)
+		print(message.chat.id)
+		print(message.text)
 
 
 if __name__=='__main__':
